@@ -1,0 +1,28 @@
+{
+  "name": "freindbook",
+  "version": "1.0.0",
+  "description": "building freindsbook",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.7",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohit9123/Freindsbook.git"
+  },
+  "author": "Rohit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohit9123/Freindsbook/issues"
+  },
+  "homepage": "https://github.com/rohit9123/Freindsbook#readme"
+}
