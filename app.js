@@ -6,8 +6,11 @@ const ejs = require("ejs");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+const passport = require("passport");
+const PassportLocal = require("./confing/passport-local-strategy");
+const session = require("express-session");
 const db = "mongodb+srv://Rohit:rohit143@cluster0.ywnv8.mongodb.net/friendbook";
-
+const User = require("./model/User");
 mongoose
   .connect(db, {
     useNewUrlParser: true,
@@ -22,6 +25,24 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded());
 app.use(cookieParser());
 
+//order matter seting our passport
+app.use(
+  session({
+    Name: "Rohit",
+    secret: "hellokumar",
+    //dont save unauthenticated person
+    saveUninitialized: false,
+    //if a person is authenticated do not rewrite
+    resave: false,
+    cookie: { maxAge: 1000 * 60 * 60 },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+//this will check weather a cookie is set or not and the users save into local
+app.use(passport.setAuthenticatedUser);
 // we are using index routin here
 // any router starting from / we use  router/index
 app.use("/", require("./router/index"));
