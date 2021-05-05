@@ -11,12 +11,28 @@ const PassportLocal = require("./confing/passport-local-strategy");
 const session = require("express-session");
 const db = "mongodb+srv://Rohit:rohit143@cluster0.ywnv8.mongodb.net/friendbook";
 const User = require("./model/User");
+
+//it will take a parameter session to save our session
+const MongoStore = require("connect-mongo")(session);
+
 mongoose
   .connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(console.log("database conected"));
+
+//for session
+const dbs = mongoose.connection;
+
+//may be used dont know
+// dbs.on("error", console.error.bind(console, "error"));
+
+// dbs.once("open", function () {
+//   console.log("connected");
+// });
+
+//session end
 
 // app.set is a object we can simply change the object
 //setup view engine
@@ -35,6 +51,15 @@ app.use(
     //if a person is authenticated do not rewrite
     resave: false,
     cookie: { maxAge: 1000 * 60 * 60 },
+    store: new MongoStore(
+      {
+        mongooseConnection: dbs,
+        autoRemove: "disable",
+      },
+      function (err) {
+        console.log(err || "connect mongo db");
+      }
+    ),
   })
 );
 

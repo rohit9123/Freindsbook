@@ -2,13 +2,21 @@ const User = require("../model/User");
 const { use } = require("../router");
 
 module.exports.profile = (req, res) => {
-  res.end("<h1>profile<h1>");
+  res.render("profile");
 };
 module.exports.signin = (req, res) => {
-  res.render("signin");
+  if (req.isAuthenticated()) {
+    res.redirect("/");
+  } else {
+    res.render("signin");
+  }
 };
 module.exports.signup = (req, res) => {
-  res.render("signup");
+  if (req.isAuthenticated()) {
+    res.redirect("/");
+  } else {
+    res.render("signup");
+  }
 };
 
 module.exports.create = function (req, res) {
@@ -40,5 +48,10 @@ module.exports.create = function (req, res) {
 };
 
 module.exports.createSession = function (req, res) {
+  res.redirect("/");
+};
+
+module.exports.destorySession = (req, res) => {
+  req.logout();
   res.redirect("/");
 };
