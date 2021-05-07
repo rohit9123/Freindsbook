@@ -2,14 +2,21 @@
   <head>
     <body>
       <%-include('header')%>
-      <h1>This is me rohit</h1>
-      <h1><%=2+2%></h1>
-      <% if (1 > 12) { %>
-      <p>valid!!!</p>
-      <%} else { %>
-      <p>Not Allowed</p>
-      <% } %> <% for(let i=0;i<10;i++){%>
-      <h1><%=i%></h1>
+      <section id="feed-posts">
+        <h4>Posts</h4>
+        <form action="/post/create" id="new-post-form" method="POST">
+          <textarea name="content" cols="30" rows="2" name="content"></textarea>
+          <input type="submit" value="Post" />
+        </form>
+      </section>
+      <%for(let post of posts ){%>
+      <div>
+        <p><%=post.user.name%></p>
+        <ul>
+          <%=post.content%>
+        </ul>
+      </div>
+
       <%}%>
     </body>
   </head>

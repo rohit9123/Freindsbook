@@ -4,18 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/header.css">
     <title>Document</title>
   </head>
   <body>
-    <ul>
+    <nav class="navbar">
+      <a href="/" class="home">freindbook</a>
       <%if(locals.user){%>
       <!-- <div></div> -->
-      <a href="/users/signout">signout</a>
-      <a href="/users/profile"><%=user.name%></a>
+      <a href="/users/signout" class="left">signout</a>
+      <a href="/users/profile" class="left"><%=user.name%></a>
       <%}else{%>
-      <a href="/users/signin">signin</a>
-      <a href="/users/signup">signup</a>
+      <a href="/users/signin" class="left">signin</a>
+      <a href="/users/signup"  class="left">signup</a>
       <%}%>
-    </ul>
+    <nav>
   </body>
 </html>

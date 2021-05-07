@@ -11,6 +11,7 @@ const PassportLocal = require("./confing/passport-local-strategy");
 const session = require("express-session");
 const db = "mongodb+srv://Rohit:rohit143@cluster0.ywnv8.mongodb.net/friendbook";
 const User = require("./model/User");
+const sassMiddleware = require("node-sass-middleware");
 
 //it will take a parameter session to save our session
 const MongoStore = require("connect-mongo")(session);
@@ -25,6 +26,17 @@ mongoose
 //for session
 const dbs = mongoose.connection;
 
+//sass middleare is used before serever start beacuse we want template to use
+
+app.use(
+  sassMiddleware({
+    src: "./assets/scss/",
+    dest: "./assets/css/",
+    debug: true,
+    outputStyle: "expanded",
+    prefix: "/css",
+  })
+);
 //may be used dont know
 // dbs.on("error", console.error.bind(console, "error"));
 

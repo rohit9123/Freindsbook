@@ -14,4 +14,5 @@ router.post(
   userController.createSession
 );
 router.get("/signout", userController.destorySession);
+
 module.exports = router;
