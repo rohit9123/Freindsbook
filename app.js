@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+const expressLayouts = require("express-ejs-layouts");
 const passport = require("passport");
 const PassportLocal = require("./confing/passport-local-strategy");
 const session = require("express-session");
@@ -37,7 +38,9 @@ app.use(
     prefix: "/css",
   })
 );
-//may be used dont know
+
+app.use(express.static("./assets"));
+// //may be used dont know
 // dbs.on("error", console.error.bind(console, "error"));
 
 // dbs.once("open", function () {
@@ -46,12 +49,18 @@ app.use(
 
 //session end
 
-// app.set is a object we can simply change the object
-//setup view engine
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded());
 app.use(cookieParser());
+// app.set is a object we can simply change the object
+//setup view engine
+app.use(expressLayouts);
+// extract style and scripts from sub pages into the layout
+app.set("layout extractStyles", true);
+app.set("layout extractScripts", true);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// app.use(express.static(path.join(__dirname, "public")));
 
 //order matter seting our passport
 app.use(

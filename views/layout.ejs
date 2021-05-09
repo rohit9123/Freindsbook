@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <base href="/" />
+
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="/css/footer.css" />
+
+    <%- style %>
+  </head>
+
+  <body>
+    <%- include('header'); %>
+
+    <main id="layout-main"><%- body %></main>
+
+    <%- include('footer'); %> <%- script %>
+  </body>
+</html>

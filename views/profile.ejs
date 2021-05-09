@@ -7,8 +7,26 @@
     <title>Document</title>
   </head>
   <body>
-    <%-include('header')%>
     <p><%=user.name%></p>
-    <p><%user.email%></p>
+    <p><%=user.email%></p>
+    <section>
+      <form action="/users/update/<%=user.id%>" method="POST">
+        <input
+          type="text"
+          name="name"
+          placeholder="your Name"
+          value="<%=user.name%>"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="your email"
+          value="<%=user.email%>"
+          required
+        />
+        <input type="submit" value="update" />
+      </form>
+    </section>
   </body>
 </html>

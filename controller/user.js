@@ -56,3 +56,26 @@ module.exports.destorySession = (req, res) => {
   req.logout();
   res.redirect("/");
 };
+
+module.exports.showprofile = (req, res) => {
+  const id = req.params.id;
+  User.findById(id, (err, user) => {
+    res.render("showuser", { profile_user: user });
+  });
+};
+
+module.exports.update = (req, res) => {
+  if (req.user.id == req.params.id) {
+    User.findByIdAndUpdate(
+      req.params.id,
+      { $set: { name: req.body.name, email: req.body.email } },
+      (err, user) => {
+        console.log(user);
+        res.redirect("/");
+      }
+    );
+  } else {
+    console, log("not found");
+    return res.status(401).send("Unauthorised ");
+  }
+};

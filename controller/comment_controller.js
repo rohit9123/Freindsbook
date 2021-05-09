@@ -25,26 +25,24 @@ module.exports.create = (req, res) => {
 };
 
 module.exports.destroy = (req, res) => {
-  // console.log("here");
-  Comment.findById(req.params.id, (err, comment) => {
-    if (comment) {
-      // comment.populate('Post')
-      if (comment.user == req.user.id) {
-        const id = comment.post;
-        comment.remove();
-        //pull is function in mongo which pull out the value from the array and update it
-        Post.findByIdAndUpdate(
-          id,
-          { $pull: { Comments: req.params.id } },
-          (err, post) => {
-            return res.redirect("/");
-          }
-        );
-      } else {
-        return res.redirect("/");
+  Comment.findById(req.params.id)
+    .populate("post")
+    .exec((err, comment) => {
+      if (comment) {
+        if (comment.user == req.user.id || comment.post.user == req.user.id) {
+          const id = comment.post._id;
+          console.log(id);
+          comment.remove();
+          Post.findByIdAndUpdate(
+            id,
+            { $pull: { Comments: req.params.id } },
+            (err, post) => {
+              return res.redirect("/");
+            }
+          );
+        } else {
+          return res.redirect("/");
+        }
       }
-    } else {
-      return res.redirect("/");
-    }
-  });
+    });
 };
