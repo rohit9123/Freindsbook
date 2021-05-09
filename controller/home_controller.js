@@ -3,6 +3,7 @@
 
 const Post = require("../model/post");
 const { post } = require("../router");
+const Comment = require("../model/comment");
 
 // }
 // cont Post=require('./post');

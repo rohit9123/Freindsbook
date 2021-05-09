@@ -15,6 +15,17 @@
         <ul>
           <%=post.content%>
         </ul>
+        <a href="/post/<%=post.id%>">show</a>
+        <section>
+          <form action="/comment/<%=post.id%>/create" method="POST">
+            <textarea name="content"></textarea>
+            <input type="submit" value="post" />
+          </form>
+        </section>
+        <!-- this is not showing people which is not created this post -->
+        <%if(locals.user && locals.user.id==post.user.id){%>
+        <small><a href="/post/destroy/<%=post.id%>">Delete</a></small>
+        <%}%>
       </div>
 
       <%}%>

@@ -9,6 +9,8 @@ const postSchema = new Schema(
       require: true,
     },
     user: { type: Schema.Types.ObjectId, ref: "User" },
+    //include the array of all comment in this schema
+    Comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps: true }
 );
