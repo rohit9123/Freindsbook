@@ -37,7 +37,7 @@ module.exports.show = (req, res) => {
 
       console.log(post.Comments.length);
       for (let i = 0; i < post.Comments.length; i++) {
-        console.log(post.Comments[i].content);
+        console.log(post.Comments[i].id);
       }
 
       res.render("show", { post: post });

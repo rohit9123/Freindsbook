@@ -17,7 +17,7 @@
         </ul>
         <a href="/post/<%=post.id%>">show</a>
         <section>
-          <form action="/comment/<%=post.id%>/create" method="POST">
+          <form action="/comment/create/<%=post.id%>" method="POST">
             <textarea name="content"></textarea>
             <input type="submit" value="post" />
           </form>

@@ -17,13 +17,15 @@
       <% for(let i=0;i< post.Comments.length;i++){%>
       <p><%=post.Comments[i].content%></p>
       <p><%=post.Comments[i].user.name%></p>
+      <p><%=post.Comments[i].id%></p>
+      <a href="/comment/destroy/<%=post.Comments[i]._id%>">Delete comment</a>
       <br />
 
       <%}%>
     </div>
 
     <section>
-      <form action="/comment/<%=post.id%>/create" method="POST">
+      <form action="/comment/create/<%=post.id%>" method="POST">
         <textarea name="content"></textarea>
         <input type="submit" value="post" />
       </form>
