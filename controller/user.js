@@ -49,11 +49,13 @@ module.exports.create = function (req, res) {
 };
 
 module.exports.createSession = function (req, res) {
+  req.flash("success", "Logged in Successfully;");
   res.redirect("/");
 };
 
 module.exports.destorySession = (req, res) => {
   req.logout();
+  req.flash("success", "Logged out Successfully;");
   res.redirect("/");
 };
 

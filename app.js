@@ -13,6 +13,8 @@ const session = require("express-session");
 const db = "mongodb+srv://Rohit:rohit143@cluster0.ywnv8.mongodb.net/friendbook";
 const User = require("./model/User");
 const sassMiddleware = require("node-sass-middleware");
+const flash = require("connect-flash");
+const customMware = require("./confing/middleware");
 
 //it will take a parameter session to save our session
 const MongoStore = require("connect-mongo")(session);
@@ -27,6 +29,14 @@ mongoose
 //for session
 const dbs = mongoose.connection;
 
+// //may be used dont know
+// dbs.on("error", console.error.bind(console, "error"));
+
+// dbs.once("open", function () {
+//   console.log("connected");
+// });
+
+//session end
 //sass middleare is used before serever start beacuse we want template to use
 
 app.use(
@@ -40,14 +50,6 @@ app.use(
 );
 
 app.use(express.static("./assets"));
-// //may be used dont know
-// dbs.on("error", console.error.bind(console, "error"));
-
-// dbs.once("open", function () {
-//   console.log("connected");
-// });
-
-//session end
 
 app.use(express.urlencoded());
 app.use(cookieParser());
@@ -89,6 +91,11 @@ app.use(passport.session());
 
 //this will check weather a cookie is set or not and the users save into local
 app.use(passport.setAuthenticatedUser);
+
+//flash have to install after the session and passport are intialize
+app.use(flash());
+app.use(customMware.setflash);
+
 // we are using index routin here
 // any router starting from / we use  router/index
 app.use("/", require("./router/index"));

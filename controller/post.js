@@ -12,9 +12,13 @@ module.exports.post = function (req, res) {
     (err, post) => {
       if (err) {
         console.log(err);
+        req.flash("error", err);
+        return res.redirect("/");
+      } else {
+        req.flash("success", "post created");
+        console.log(post);
+        return res.redirect("/");
       }
-      console.log(post);
-      return res.redirect("/");
     }
   );
 };
@@ -35,30 +39,29 @@ module.exports.show = (req, res) => {
         console.log(err);
       }
 
-      console.log(post.Comments.length);
-      for (let i = 0; i < post.Comments.length; i++) {
-        console.log(post.Comments[i].id);
-      }
-
       res.render("show", { post: post });
     });
 };
 
-module.exports.destroy = (req, res) => {
-  Post.findById(req.params.id, (err, post) => {
-    // console;
-    console.log(post);
-    //id means converting the object id into string
-    //we are deleting the post and the comment all associated with it
+module.exports.destroy = async (req, res) => {
+  try {
+    //finding the post
+    let post = await Post.findById(req.params.id);
+
     if (post.user == req.user.id) {
+      //deleting the post
       post.remove();
-      Comment.deleteMany({ post: req.params.id }, function (err) {
-        // post.remove();
-        return res.redirect("/");
-      });
+      //deleting the comment associated with it
+      req.flash("success", "post and associated comment  deleted");
+      await Comment.deleteMany({ post: req.params.id });
+      return res.redirect("back");
     } else {
-      console.log("not match");
-      return res.redirect("/");
+      req.flash("erroe", "you cannot delete the post");
+      return res.redirect("back");
     }
-  });
+  } catch (err) {
+    req.flash("error", err);
+    console.log("Error", err);
+    return;
+  }
 };

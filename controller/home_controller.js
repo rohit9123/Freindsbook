@@ -9,7 +9,7 @@ const User = require("../model/User");
 // }
 // cont Post=require('./post');
 
-module.exports.home = function (req, res) {
+module.exports.home = async (req, res) => {
   // const showpost = Post.find({}, (err, posts) => {
   //   // console.log(book);
   //   if (err) {
@@ -20,18 +20,21 @@ module.exports.home = function (req, res) {
   // });
 
   //what are doing here is we are populating the user table and then we are sending the data post and user
-  Post.find({})
-    .populate("user")
-    .populate({
-      path: "Comments  ",
-      populate: {
-        path: "user",
-      },
-    })
-    .exec((err, posts) => {
-      User.find({}, (err, users) => {
-        return res.render("home", { posts: posts, all_users: users });
+  try {
+    let posts = await Post.find({})
+      .populate("user")
+      .populate({
+        path: "Comments  ",
+        populate: {
+          path: "user",
+        },
       });
-    });
+    let Users = await User.find({});
+
+    return res.render("home", { posts: posts, all_users: Users });
+  } catch (err) {
+    console.log("Error", err);
+    return;
+  }
   // console.log(showpost);
 };
