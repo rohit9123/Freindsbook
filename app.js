@@ -50,7 +50,7 @@ app.use(
 );
 
 app.use(express.static("./assets"));
-//make the upload path
+//make the upload path of avatar available to the public
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(express.urlencoded());
 app.use(cookieParser());

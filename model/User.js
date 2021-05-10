@@ -24,6 +24,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    //pah of the fille
     avatar: {
       type: String,
     },
@@ -49,7 +50,8 @@ let storage = multer.diskStorage({
 });
 
 //static function
-//this function will be used to upload the pic on user model
+//this function will be used to upload one pic on user model
+//this is saying only one file will e uploaded one time
 userSchema.statics.uploadedAvatar = multer({ storage: storage }).single(
   "avatar"
 );

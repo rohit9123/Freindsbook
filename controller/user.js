@@ -1,6 +1,8 @@
 const User = require("../model/User");
 const { use } = require("../router");
 const Post = require("../model/post");
+const fs = require("fs");
+const path = require("path");
 
 module.exports.profile = (req, res) => {
   res.render("profile");
@@ -100,10 +102,16 @@ module.exports.update = async (req, res) => {
         user.email = req.body.email;
         console.log("now");
         if (req.file) {
+          //if avatar is already persent we will delete that path and for deleting we require fs and path
+          if (user.avatar) {
+            //fs going to that folder and delete that avatar
+            fs.unlinkSync(path.join(__dirname, "..", user.avatar));
+          }
           //this is saving the path of the uploaded file into the avatar field in the user
           user.avatar = User.avatarPath + "/" + req.file.filename;
         }
         user.save();
+        req.flash("success", "profile updated");
         return res.redirect("back");
       });
     } catch (err) {
