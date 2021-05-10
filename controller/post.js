@@ -2,25 +2,23 @@ const Post = require("../model/post");
 const mongoose = require("mongoose");
 const Comment = require("../model/comment");
 
-module.exports.post = function (req, res) {
+module.exports.post = async (req, res) => {
   const content = req.body.content;
-  Post.create(
-    {
-      content: content,
-      user: req.user._id,
-    },
-    (err, post) => {
-      if (err) {
-        console.log(err);
-        req.flash("error", err);
-        return res.redirect("/");
-      } else {
-        req.flash("success", "post created");
-        console.log(post);
-        return res.redirect("/");
-      }
-    }
-  );
+  let post = await Post.create({
+    content: req.body.content,
+    user: req.user._id,
+  });
+  if (req.xhr) {
+    return res.status(200).json({
+      data: {
+        post: post,
+      },
+      message: "Post created",
+    });
+  }
+
+  req.flash("success", "post Pulished");
+  return res.redirect("back");
 };
 
 module.exports.show = (req, res) => {
@@ -51,12 +49,21 @@ module.exports.destroy = async (req, res) => {
     if (post.user == req.user.id) {
       //deleting the post
       post.remove();
+
       //deleting the comment associated with it
       req.flash("success", "post and associated comment  deleted");
       await Comment.deleteMany({ post: req.params.id });
+      if (req.xhr) {
+        return res.status(200).json({
+          data: {
+            post_id: req.params.id,
+          },
+          message: "post deleted",
+        });
+      }
       return res.redirect("back");
     } else {
-      req.flash("erroe", "you cannot delete the post");
+      req.flash("erroe", "you cannot delete the");
       return res.redirect("back");
     }
   } catch (err) {

@@ -66,18 +66,49 @@ module.exports.showprofile = (req, res) => {
   });
 };
 
-module.exports.update = (req, res) => {
+module.exports.update = async (req, res) => {
+  // if (req.user.id == req.params.id) {
+  //   User.findByIdAndUpdate(
+  //     req.params.id,
+  //     { $set: { name: req.body.name, email: req.body.email } },
+  //     (err, user) => {
+  //       console.log(user);
+  //       res.redirect("/");
+  //     }
+  //   );
+  // } else {
+  //   console, log("not found");
+  //   return res.status(401).send("Unauthorised ");
+  // }
+
   if (req.user.id == req.params.id) {
-    User.findByIdAndUpdate(
-      req.params.id,
-      { $set: { name: req.body.name, email: req.body.email } },
-      (err, user) => {
-        console.log(user);
-        res.redirect("/");
-      }
-    );
-  } else {
-    console, log("not found");
-    return res.status(401).send("Unauthorised ");
+    try {
+      let user = await User.findById(req.params.id);
+
+      //we cant use now body-barser eacuse our form now has change to file
+      User.uploadedAvatar(req, res, async function (err) {
+        // console.log(req.file);
+
+        // let photo=
+        if (err) {
+          // console.log("here");
+          console.log("===multer Error:", err);
+        }
+        console.log(req.body.name);
+        await console.log(req.file);
+        user.name = req.body.name;
+        user.email = req.body.email;
+        console.log("now");
+        if (req.file) {
+          //this is saving the path of the uploaded file into the avatar field in the user
+          user.avatar = User.avatarPath + "/" + req.file.filename;
+        }
+        user.save();
+        return res.redirect("back");
+      });
+    } catch (err) {
+      req.flash("error", err);
+      return res.redirect("back");
+    }
   }
 };

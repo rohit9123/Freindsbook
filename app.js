@@ -50,7 +50,8 @@ app.use(
 );
 
 app.use(express.static("./assets"));
-
+//make the upload path
+app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(express.urlencoded());
 app.use(cookieParser());
 // app.set is a object we can simply change the object

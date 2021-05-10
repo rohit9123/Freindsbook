@@ -22,6 +22,7 @@ module.exports.home = async (req, res) => {
   //what are doing here is we are populating the user table and then we are sending the data post and user
   try {
     let posts = await Post.find({})
+      .sort("-createdAt")
       .populate("user")
       .populate({
         path: "Comments  ",

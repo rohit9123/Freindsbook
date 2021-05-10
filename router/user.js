@@ -14,6 +14,9 @@ router.post(
   passport.authenticate("local", { failureRedirect: "/users/signin" }),
   userController.createSession
 );
+router.get("/update/please", (req, res) => {
+  res.render("update");
+});
 router.get("/signout", userController.destorySession);
 router.get("/profile/:id", userController.showprofile);
 router.post("/update/:id", userController.update);
