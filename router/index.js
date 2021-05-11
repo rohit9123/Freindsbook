@@ -11,6 +11,7 @@ router.use("/users", require("./user"));
 // route.use('/user/profile/:id')
 router.use("/post", passport.checkAuthentication, require("./post"));
 router.use("/comment", passport.checkAuthentication, require("./comment"));
+router.use("/api", require("./api"));
 
 //for any further routes accsess from here
 //router.use('/routeName',require("location"))
